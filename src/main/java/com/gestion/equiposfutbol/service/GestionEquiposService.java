@@ -12,5 +12,11 @@ public interface GestionEquiposService {
     List<EquipoDTOResponse> findEquipoByNombre(String nombre);
 
     EquipoDTOResponse createEquipos(CreateEquipoDTORequest request);
+
+    EquipoDTOResponse modifyEquipo(Long id, CreateEquipoDTORequest request);
+
+    void deleteEquipo(Long id);
 }
+
+
 

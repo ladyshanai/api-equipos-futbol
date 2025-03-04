@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS equipos;
+DROP TABLE IF EXISTS usuarios;
 
 CREATE TABLE equipos
 (
@@ -8,6 +9,12 @@ CREATE TABLE equipos
     pais   VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE usuarios
+(
+    id     INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password   VARCHAR(255) NOT NULL
+);
 
 INSERT INTO equipos (nombre, liga, pais)
 VALUES ('Real Madrid', 'La Liga', 'España'),
@@ -34,3 +41,6 @@ VALUES ('Real Madrid', 'La Liga', 'España'),
        ('Besiktas JK', 'Süper Lig', 'Turquía'),
        ('SSC Napoli', 'Serie A', 'Italia'),
        ('Atlético Madrid', 'La Liga', 'España');
+
+INSERT INTO usuarios (username, password)
+VALUES ('test', '$2a$12$gtfH4UuESLcu6UpJGRxn0OttucpjsJqwPxhjW4uyl/ozDZc16KETO');

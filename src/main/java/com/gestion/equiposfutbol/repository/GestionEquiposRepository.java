@@ -16,7 +16,6 @@ public interface GestionEquiposRepository extends JpaRepository<EquipoEntity, Lo
     @Query("SELECT e FROM EquipoEntity e WHERE LOWER(e.nombre) LIKE LOWER(CONCAT('%', :nombre, '%')) OR LOWER(e.liga) LIKE LOWER(CONCAT('%', :nombre, '%')) OR LOWER(e.pais) LIKE LOWER(CONCAT('%', :nombre, '%'))")
     List<EquipoEntity> findByNombreContaining(@Param("nombre") String nombre);
 
-
-
+    EquipoEntity findByNombre(String nombre);
 
 }

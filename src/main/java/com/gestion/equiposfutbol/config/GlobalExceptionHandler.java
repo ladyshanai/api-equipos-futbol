@@ -1,8 +1,7 @@
 package com.gestion.equiposfutbol.config;
 
-import com.gestion.equiposfutbol.exception.EquipoDuplicadoException;
+import com.gestion.equiposfutbol.exception.SolicitudInvalidaException;
 import com.gestion.equiposfutbol.exception.EquipoNoEncontradoException;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,8 +19,8 @@ public class GlobalExceptionHandler {
         return construirRespuesta(HttpStatus.NOT_FOUND, e.getMessage());
     }
 
-    @ExceptionHandler(EquipoDuplicadoException.class)
-    public ResponseEntity<Map<String, Object>> manejarEquipoDuplicado(EquipoDuplicadoException e) {
+    @ExceptionHandler(SolicitudInvalidaException.class)
+    public ResponseEntity<Map<String, Object>> manejarEquipoDuplicado(SolicitudInvalidaException e) {
         return construirRespuesta(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
