@@ -1,5 +1,6 @@
 package com.gestion.equiposfutbol.config;
 
+import com.gestion.equiposfutbol.exception.AccesoNoAutorizadoException;
 import com.gestion.equiposfutbol.exception.SolicitudInvalidaException;
 import com.gestion.equiposfutbol.exception.EquipoNoEncontradoException;
 import org.springframework.http.HttpStatus;
@@ -24,10 +25,10 @@ public class GlobalExceptionHandler {
         return construirRespuesta(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
-//    @ExceptionHandler(AccesoNoAutorizadoException.class)
-//    public ResponseEntity<Map<String, Object>> manejarAccesoNoAutorizado(AccesoNoAutorizadoException e) {
-//        return construirRespuesta(HttpStatus.FORBIDDEN, "Acceso denegado", e.getMessage());
-//    }
+    @ExceptionHandler(AccesoNoAutorizadoException.class)
+    public ResponseEntity<Map<String, Object>> manejarAccesoNoAutorizado(AccesoNoAutorizadoException e) {
+        return construirRespuesta(HttpStatus.UNAUTHORIZED, e.getMessage());
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> manejarErroresGenerales(Exception e) {

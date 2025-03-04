@@ -3,6 +3,7 @@ package com.gestion.equiposfutbol.controller;
 
 import com.gestion.equiposfutbol.dto.request.CreateEquipoDTORequest;
 import com.gestion.equiposfutbol.dto.response.EquipoDTOResponse;
+import com.gestion.equiposfutbol.exception.AccesoNoAutorizadoException;
 import com.gestion.equiposfutbol.service.GestionEquiposService;
 import com.gestion.equiposfutbol.service.user.UsersService;
 import org.springframework.http.HttpStatus;
@@ -69,7 +70,7 @@ public class GestionEquiposController {
             String token = authHeader.substring(7);
             usersService.validateToken(token);
         } else {
-            throw new Exception("Token invalido");
+            throw new AccesoNoAutorizadoException("Token invalido");
         }
     }
 

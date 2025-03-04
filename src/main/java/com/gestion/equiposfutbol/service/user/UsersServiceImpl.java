@@ -4,12 +4,12 @@ package com.gestion.equiposfutbol.service.user;
 import com.gestion.equiposfutbol.dto.request.LoginUserDto;
 import com.gestion.equiposfutbol.dto.response.LoginUserResponse;
 import com.gestion.equiposfutbol.entity.UserEntity;
+import com.gestion.equiposfutbol.exception.AccesoNoAutorizadoException;
 import com.gestion.equiposfutbol.jwt.TokenService;
 import com.gestion.equiposfutbol.mapper.UserMapper;
 import com.gestion.equiposfutbol.repository.UsersRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -38,26 +38,26 @@ public class UsersServiceImpl implements UsersService {
             return loginUserResponse;
         } catch (Exception e) {
             log.error("loginUser error: {}", e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al loguear", e);
+            throw new AccesoNoAutorizadoException("Error al realizar proceso de login");
         }
     }
 
-    private void validateUserAndPassword(String pass, UserEntity userEntity) throws Exception {
+    private void validateUserAndPassword(String pass, UserEntity userEntity) {
         String errorMessage = "Invalid User/Password";
         if(userEntity == null)
-            throw new Exception(errorMessage);
+            throw new AccesoNoAutorizadoException(errorMessage);
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12, new SecureRandom());
         if(userEntity.getPassword() != null && !bCryptPasswordEncoder.matches(pass, userEntity.getPassword()))
-            throw new Exception(errorMessage);
+            throw new AccesoNoAutorizadoException(errorMessage);
     }
 
-    public void validateToken(String authToken) throws Exception {
+    public void validateToken(String authToken) {
         try {
             tokenService.getUserFromToken(authToken);
         } catch (Exception e) {
             log.error("validateToken error: {}", e.getMessage());
-            throw new Exception("Token invalido");
+            throw new AccesoNoAutorizadoException("Token invalido");
         }
     }
 
