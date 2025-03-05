@@ -6,6 +6,7 @@ import com.gestion.equiposfutbol.dto.response.EquipoDTOResponse;
 import com.gestion.equiposfutbol.exception.AccesoNoAutorizadoException;
 import com.gestion.equiposfutbol.service.GestionEquiposService;
 import com.gestion.equiposfutbol.service.user.UsersService;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class GestionEquiposController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<EquipoDTOResponse>> findEquipos(@RequestHeader("Authorization") String authHeader) throws Exception {
+    public ResponseEntity<List<EquipoDTOResponse>> findEquipos(@Parameter(hidden = true) @RequestHeader("Authorization") String authHeader) throws Exception {
         validateToken(authHeader);
         List<EquipoDTOResponse> response = gestionEquiposService.findEquipos();
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -64,6 +65,15 @@ public class GestionEquiposController {
         gestionEquiposService.deleteEquipo(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+//    private String extractJwtToken() {
+//        Object principal = SecurityContextHolder.getContext().getAuthentication();
+//        if (principal instanceof JwtAuthenticationToken jwtAuth) {
+//            return jwtAuth.getToken().getTokenValue();
+//        }
+//        return null;
+//    }
+
 
     private void validateToken(String authHeader) throws Exception {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {

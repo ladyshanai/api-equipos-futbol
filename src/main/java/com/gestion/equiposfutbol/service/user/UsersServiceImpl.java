@@ -2,11 +2,11 @@ package com.gestion.equiposfutbol.service.user;
 
 
 import com.gestion.equiposfutbol.dto.request.LoginUserDto;
+import com.gestion.equiposfutbol.dto.response.LoggedUser;
 import com.gestion.equiposfutbol.dto.response.LoginUserResponse;
 import com.gestion.equiposfutbol.entity.UserEntity;
 import com.gestion.equiposfutbol.exception.AccesoNoAutorizadoException;
 import com.gestion.equiposfutbol.jwt.TokenService;
-import com.gestion.equiposfutbol.mapper.UserMapper;
 import com.gestion.equiposfutbol.repository.UsersRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +33,11 @@ public class UsersServiceImpl implements UsersService {
         try {
             UserEntity userEntity = usersRepository.findByUsername(loginUserDto.getUsername());
             validateUserAndPassword(loginUserDto.getPassword(), userEntity);
-            LoginUserResponse loginUserResponse = UserMapper.entityToResponse(userEntity);
-            loginUserResponse.setToken(tokenService.getJwtToken(loginUserResponse.getUsername()));
+            LoggedUser user = new LoggedUser();
+            user.setUsername(userEntity.getUsername());
+            user.setId(userEntity.getId());
+            LoginUserResponse loginUserResponse = new LoginUserResponse();
+            loginUserResponse.setToken(tokenService.getJwtToken(user));
             return loginUserResponse;
         } catch (Exception e) {
             log.error("loginUser error: {}", e.getMessage());
