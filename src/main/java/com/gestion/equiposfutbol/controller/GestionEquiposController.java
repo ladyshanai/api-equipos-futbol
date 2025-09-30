@@ -66,15 +66,6 @@ public class GestionEquiposController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-//    private String extractJwtToken() {
-//        Object principal = SecurityContextHolder.getContext().getAuthentication();
-//        if (principal instanceof JwtAuthenticationToken jwtAuth) {
-//            return jwtAuth.getToken().getTokenValue();
-//        }
-//        return null;
-//    }
-
-
     private void validateToken(String authHeader) throws Exception {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
@@ -83,5 +74,4 @@ public class GestionEquiposController {
             throw new AccesoNoAutorizadoException("Token invalido");
         }
     }
-
 }

@@ -39,10 +39,8 @@ class GestionEquiposServiceTest {
         equipoEntity.setLiga("Liga Test");
         equipoEntity.setPais("Pais Test");
 
-        equipoRequest = new CreateEquipoDTORequest();
-        equipoRequest.setNombre("Equipo Test");
-        equipoRequest.setLiga("Liga Test");
-        equipoRequest.setPais("Pais Test");
+        CreateEquipoDTORequest equipo1= new CreateEquipoDTORequest("Equipo Test","Liga Test","Pais Test");
+
     }
 
     @Test
@@ -53,7 +51,7 @@ class GestionEquiposServiceTest {
 
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals("Equipo Test", result.get(0).getNombre());
+        assertEquals("Equipo Test", result.get(0).nombre());
         verify(gestionEquiposRepository, times(1)).findAll();
     }
 
@@ -71,7 +69,7 @@ class GestionEquiposServiceTest {
         EquipoDTOResponse result = gestionEquiposService.findEquipoById(1L);
 
         assertNotNull(result);
-        assertEquals("Equipo Test", result.getNombre());
+        assertEquals("Equipo Test", result.nombre());
         verify(gestionEquiposRepository, times(1)).findById(1L);
     }
 
@@ -90,7 +88,7 @@ class GestionEquiposServiceTest {
 
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals("Equipo Test", result.get(0).getNombre());
+        assertEquals("Equipo Test", result.get(0).nombre());
         verify(gestionEquiposRepository, times(1)).findByNombreContaining("Equipo");
     }
 
@@ -109,7 +107,7 @@ class GestionEquiposServiceTest {
         EquipoDTOResponse result = gestionEquiposService.createEquipos(equipoRequest);
 
         assertNotNull(result);
-        assertEquals("Equipo Test", result.getNombre());
+        assertEquals("Equipo Test", result.nombre());
         verify(gestionEquiposRepository, times(1)).save(any(EquipoEntity.class));
     }
 
@@ -128,7 +126,7 @@ class GestionEquiposServiceTest {
         EquipoDTOResponse result = gestionEquiposService.modifyEquipo(1L, equipoRequest);
 
         assertNotNull(result);
-        assertEquals("Equipo Test", result.getNombre());
+        assertEquals("Equipo Test", result.nombre());
         verify(gestionEquiposRepository, times(1)).save(any(EquipoEntity.class));
     }
 

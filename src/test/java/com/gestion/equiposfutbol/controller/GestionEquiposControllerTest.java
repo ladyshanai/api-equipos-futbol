@@ -36,12 +36,9 @@ class GestionEquiposControllerTest {
 
     @BeforeEach
     void setUp() {
-        equipoDTOResponse = new EquipoDTOResponse();
-        equipoDTOResponse.setId(1L);
-        equipoDTOResponse.setNombre("Equipo Test");
+        EquipoDTOResponse equipoDTOResponse = new EquipoDTOResponse(1L,"Equipo Test","","");
 
-        createEquipoDTORequest = new CreateEquipoDTORequest();
-        createEquipoDTORequest.setNombre("Equipo Nuevo");
+        CreateEquipoDTORequest equipo = new CreateEquipoDTORequest("Equipo Nuevo","","");
     }
 
     @Test
@@ -67,7 +64,7 @@ class GestionEquiposControllerTest {
 
         assertNotNull(response);
         assertEquals(200, response.getStatusCode().value());
-        assertEquals(1L, response.getBody().getId());
+        assertEquals(1L, response.getBody().id());
         verify(usersService, times(1)).validateToken(anyString());
         verify(gestionEquiposService, times(1)).findEquipoById(anyLong());
     }
@@ -81,7 +78,7 @@ class GestionEquiposControllerTest {
 
         assertNotNull(response);
         assertEquals(201, response.getStatusCode().value());
-        assertEquals("Equipo Test", response.getBody().getNombre());
+        assertEquals("Equipo Test", response.getBody().nombre());
         verify(usersService, times(1)).validateToken(anyString());
         verify(gestionEquiposService, times(1)).createEquipos(any(CreateEquipoDTORequest.class));
     }

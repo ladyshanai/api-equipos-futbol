@@ -31,14 +31,10 @@ public class UsersServiceImpl implements UsersService {
 
     public LoginUserResponse loginUser(LoginUserDto loginUserDto) throws ResponseStatusException {
         try {
-            UserEntity userEntity = usersRepository.findByUsername(loginUserDto.getUsername());
-            validateUserAndPassword(loginUserDto.getPassword(), userEntity);
-            LoggedUser user = new LoggedUser();
-            user.setUsername(userEntity.getUsername());
-            user.setId(userEntity.getId());
-            LoginUserResponse loginUserResponse = new LoginUserResponse();
-            loginUserResponse.setToken(tokenService.getJwtToken(user));
-            return loginUserResponse;
+            UserEntity userEntity = usersRepository.findByUsername(loginUserDto.username());
+            validateUserAndPassword(loginUserDto.password(), userEntity);
+            LoggedUser user = new LoggedUser(userEntity.getId(), userEntity.getUsername());
+            return new LoginUserResponse(tokenService.getJwtToken(user));
         } catch (Exception e) {
             log.error("loginUser error: {}", e.getMessage());
             throw new AccesoNoAutorizadoException("Error al realizar proceso de login");
@@ -63,5 +59,4 @@ public class UsersServiceImpl implements UsersService {
             throw new AccesoNoAutorizadoException("Token invalido");
         }
     }
-
 }
